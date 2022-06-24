@@ -54,10 +54,12 @@ class App extends Component {
   render() {
     const {list, searchItem} = this.state
     return (
-      <div className='App'>
-
+      <div className='page'>
+        <div className='interactions'>
         <Search value={searchItem} onChange={this.onSearchChange}>Search</Search>
         <Table list={list} pattern={searchItem} onDismiss={this.onDismiss}/>
+        </div>
+       
 
       </div>
     );
@@ -65,34 +67,25 @@ class App extends Component {
  
 }
 
-class Table extends Component {
-  render() {
-    const {list, pattern, onDismiss} = this.props;
-    return (
-      <div>
+const Table = ({list, pattern, onDismiss}) => 
+      <div className='table'>
             {list.filter(isSearchItem(pattern)).map( item => {
             const onHandleDismiss = () => onDismiss(item.object_id);
             return (
-            <div key={item.object_id}>
-            <span><a href={item.url}> <br />{item.title}</a></span> <br />
-            <span>{item.author}</span>
-            <span>{item.num_commers}</span>
-            <span>{item.points}</span>
-            <span>
-              <Button onClick={onHandleDismiss}>Dismiss</Button>
+            <div key={item.object_id} className='table-row'>
+            <span style={{width: '40%'}}><a href={item.url}> <br />{item.title}</a></span> <br />
+            <span style={{width: '30%'}}>{item.author}</span>
+            <span  style={{width: '10%'}}>{item.num_commers}</span>
+            <span  style={{width: '10%'}}>{item.points}</span>
+            <span  style={{width: '10%'}}>
+              <Button onClick={onHandleDismiss} className="button-inline">Dismiss</Button>
             </span>
             </div>
             )
   })}
       </div>
-    )
-  }
-}
 
-class Search extends Component {
-  render() {
-    const {value, onChange, children} = this.props;
-    return (
+const Search = ({value, onChange, children}) => 
       <div>
          <form>
           {children}
@@ -100,20 +93,13 @@ class Search extends Component {
          onChange={onChange} />
        </form>
       </div>
-    )
-  }
-}
 
-class Button extends Component {
-  render() {
-    const {onClick, className='', children} = this.props
-    return (
-      <button
-        onClick={onClick}
-        className={className}
-        type="Button">{children}</button>
-    )
-  }
-}
+const Button = ({onClick, className='', children}) => 
+<button
+   onClick={onClick}
+   className={className}
+   type="Button">{children}
+</button>
+
 
 export default App;
